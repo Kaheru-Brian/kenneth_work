@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% comment %} <h1>{{ data }}</h1> {% endcomment %}
+    <form method="POST" action="{% url "create_task" %}">
+    {% csrf_token %}
+    {% for form_field in form %}
+        {{ form_field.label_tag }}
+        {{ form_field }}
+        {{ form_field.errors }}
+    {% endfor %}
+       
+        <input type="submit" value="Submit">
+    </form>
+    <table style="border: 1px solid black ; border-collapse: collapse; padding: 5px;">
+        <thead>
+            <tr style="border: 1px solid black ; border-collapse: collapse;">
+                <th>Name</th>
+                <th>Task details</th>
+                <th>No People</th>
+                <th>Date Created</th>
+                <th>Day of week</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+        <tbody style="border: 1px solid black ; border-collapse: collapse;">
+
+        </tbody>
+        {% for task in task_list %}
+        <tr style="border: 1px solid black ; border-collapse: collapse;">
+            <td>{{ task.name }}</td>
+            <td>{{ task.details }}</td>
+            <td>{{ task.date_created }}</td>
+            <td>{{ task.day_of_week }}</td>
+            <td>{{ task.no_people }}</td>
+            <td><a href="{% url "edit_task" task.id %}">Edit</a></td>
+            <td><a href="{% url "delete_task" task.id %}">Delete</a></td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
